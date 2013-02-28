@@ -23,3 +23,5 @@ public/cache/*
 .rbenv-version
 bin/
 .bundle/
+.project
+

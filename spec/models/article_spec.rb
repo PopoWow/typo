@@ -26,6 +26,37 @@ describe Article do
     assert_equal [:body, :extended], a.content_fields
   end
 
+  describe "#merge_article" do
+    describe "with child article" do
+      before do
+        parent = Factory(:article, :id => 101, :title => 'Parent title', :body => 'Parent body', :author => 'admin')
+        child = Factory(:article, :id => 102, :title => 'Child title', :body => 'Child body', :author => 'blogpub')
+        Factory(:comment, :title => 'Parent comment title', :body => 'Parent comment body', :author => 'admin', :article_id => 101)
+        Factory(:comment, :title => 'Child comment title', :body => 'Child comment body', :author => 'blogpub', :article_id => 102)
+        @merged = parent.merge_with(child)
+      end
+      
+      it "has the title of the parent article" do
+        @merged[:title].should == 'Parent title'
+      end
+
+      it "has the author of the parent article" do
+        @merged[:author].should == 'admin'
+      end
+
+      it "has the text of both articles" do
+        @merged[:body].should include 'Parent body'
+        @merged[:body].should include 'Child body'
+      end
+
+      it "has the comments of both articles" do
+        # child comment's article ID should have been moved from 102 -> 101
+        child_comment = Comment.find_by_title('Child comment title')
+        child_comment[:article_id].should == 101
+      end
+    end
+  end
+
   describe "#permalink_url" do
     describe "with hostname" do
       subject { Article.new(:permalink => 'article-3', :published_at => Time.new(2004, 6, 1)).permalink_url(anchor=nil, only_path=false) }

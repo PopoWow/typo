@@ -12,6 +12,27 @@ class ArticlesController < ContentController
 
   helper :'admin/base'
 
+  def merge_with
+    if not params[:parent] or not params[:merge_with]
+      redirect_to("/admin/content/")
+    else
+      parent = Article.find_by_id(params[:parent])
+      if not parent
+        redirect_to("/admin/content/")
+      else
+        child = Article.find_by_id(params[:merge_with])
+        if not child
+          @article = parent
+          redirect_to("/admin/content/edit/#{parent.id}")
+        end
+      end
+    end
+    
+    parent.merge_with(params[:merge_with])
+    @article = parent
+    redirect_to("/admin/content/edit/#{parent.id}")
+end
+  
   def index
     respond_to do |format|
       format.html { @limit = this_blog.limit_article_display }

@@ -71,6 +71,25 @@ class Article < Content
     end
   end
 
+  def merge_with(child_article_id)
+    child = Article.find_by_id(child_article_id)
+    new_body = self.body + child.body
+    self.body = new_body
+    self.save!
+    
+    #migrate child's comments to
+    child_comments = Comment.find_all_by_article_id(child_article_id)
+    child_comments.each do |comment|
+        comment.article_id = self.id
+        comment.save!
+    end
+      
+    # delete the merged child article
+    child.destroy
+    
+    self
+  end
+  
   def set_permalink
     return if self.state == 'draft'
     self.permalink = self.title.to_permalink if self.permalink.nil? or self.permalink.empty?

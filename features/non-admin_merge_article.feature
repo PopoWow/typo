@@ -13,6 +13,6 @@ Feature: Try to merge blog articles as a non-admin
     | User's article  | blogpub   | Written by a non-admin id 3 |
     And I am logged into the admin panel as "blogpub"
 
-  Scenario: A non-admin should not be able to merge blog entries
+  Scenario: A non-admin cannot merge two articles
     Given I am on the edit page for article 3
     Then I should not see "Merge Articles"

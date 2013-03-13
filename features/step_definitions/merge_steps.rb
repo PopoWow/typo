@@ -26,6 +26,7 @@ Given /^the following article[s]? exist[s]?:$/ do |article_table|
     # user to the database here.
     #article[:type] = 'Article'
     article_info[:allow_comments] = true
+    article_info[:published] = true
     Article.create!(article_info)
   end
 end
@@ -53,8 +54,8 @@ And /^I am logged into the admin panel as "(.*)"$/ do |account_name|
 end
 
 And /^articles (\d+) and (\d+) are merged$/ do |parent, child|
-  visit admin_content_path("edit", $1)
+  visit "/admin/content/edit/#{parent}"
   fill_in "merge_with", :with => child
-  click_button "merge_articles"
+  click_button "post_submit"
 end
 

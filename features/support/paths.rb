@@ -18,8 +18,12 @@ module NavigationHelpers
     when /^the new article page$/
       '/admin/content/new'
     when /^the edit page for article (\d+)$/
-      admin_content_path("edit", $1)
-
+      "/admin/content/edit/#{$1}"
+    when /^the view page for article (\d+)$/
+      item = Article.find_by_id($1)
+      date = item.updated_at
+      "/#{date.year}/#{date.month}/#{date.day}/#{item.permalink}"
+    
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

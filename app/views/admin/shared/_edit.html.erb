@@ -4,3 +4,15 @@
   <%= render :partial => "form" %>
 
 <% end %>
+
+<% if current_user.profile_id == 1 %>
+  <div class='class'>
+    <h4><%= _("Merge Articles") %></h4>
+    <div class='class'>
+		<%= form_for @article, :as => :post, :url => "/admin/articles/#{@article.id}/merge_with", :method => :put, :html => { :class => "merge_from", :id => "merge_from" } do |f| %>
+	        Article ID: <%= text_field_tag 'merge_with', '', :size => 75 %><br />
+	        <%= f.submit 'Merge' %>
+		<% end %>
+    </div>
+  </div>
+<% end %>

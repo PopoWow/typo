@@ -41,6 +41,12 @@ Given /^the following comment[s]? exist[s]?:$/ do |comment_table|
   end
 end
 
+Given /^the following categor(y|ies) exist[s]?:$/ do |cat_table|
+  cat_table.hashes.each do |cat_info|
+    Category.create!(cat_info)
+  end
+end
+
 And /^I am logged into the admin panel as "(.*)"$/ do |account_name|
   visit '/accounts/login'
   fill_in 'user_login', :with => account_name

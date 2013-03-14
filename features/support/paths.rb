@@ -17,12 +17,17 @@ module NavigationHelpers
       '/'
     when /^the new article page$/
       '/admin/content/new'
-    when /^the edit page for article (\d+)$/
-      "/admin/content/edit/#{$1}"
-    when /^the view page for article (\d+)$/
-      item = Article.find_by_id($1)
+    when /^the new category page$/
+      '/admin/categories/new'
+    when /^the view page for article (?<id>\d+)$/ # this needs to be before more general case below
+      item = Article.find_by_id($~[:id])
       date = item.updated_at
       "/#{date.year}/#{date.month}/#{date.day}/#{item.permalink}"
+    when /^the (?<action>.+) page for (?<type>.+) (?<id>\d+)$/
+      type = $~[:type] == 'article' ? 'content' : $~[:type]
+      path = "/admin/#{type}/#{$~[:action]}/#{$~[:id]}"
+      puts path
+      path
     
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

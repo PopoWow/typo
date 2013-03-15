@@ -41,7 +41,7 @@ Given /^the following comment[s]? exist[s]?:$/ do |comment_table|
   end
 end
 
-Given /^the following categor(y|ies) exist[s]?:$/ do |cat_table|
+Given /^the following categor(?:y|ies) exist[s]?:$/ do |cat_table|
   cat_table.hashes.each do |cat_info|
     Category.create!(cat_info)
   end

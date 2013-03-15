@@ -16,7 +16,7 @@ Feature: Merge blog articles
 
   Scenario: blog id entry field should have the attribute name: "merge_with"
     Given I am on the edit page for article 3
-    #Then I should see 
+    Then I should see a field "merge_with"
     
   
   

@@ -17,16 +17,16 @@ Feature: Add and edit categories
     
   Scenario: I can edit an existing category
     Given the following category exists:
-    | name    | permalink |
-    | Puppies | puppies   | 
+    | name    | permalink | description   |
+    | Puppies | puppies   | This has ID 2 |
 
 	# path is categories even though this is grammatically incorrect
-    And I am on the edit page for categories 1
+    And I am on the edit page for category 2
     When I fill in "category_name" with "Kittens"
     And I fill in "category_permalink" with "kittens"
     And I press "Save"
     Then I should be on the new category page
     And I should see "Kittens"
-    #And I should not see "Puppies"
+    And I should not see "Puppies"
     
     

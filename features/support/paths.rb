@@ -24,9 +24,16 @@ module NavigationHelpers
       date = item.updated_at
       "/#{date.year}/#{date.month}/#{date.day}/#{item.permalink}"
     when /^the (?<action>.+) page for (?<type>.+) (?<id>\d+)$/
-      type = $~[:type] == 'article' ? 'content' : $~[:type]
+      type = $~[:type] # weird syntax for pulling out named match groups in a switch
+      # clean up some semantic issues
+      case type
+      when 'article'
+        type = 'content'
+      when 'category'
+        type = 'categories'
+      end
       path = "/admin/#{type}/#{$~[:action]}/#{$~[:id]}"
-      puts path
+      #puts path
       path
     
     # Add more mappings here.
